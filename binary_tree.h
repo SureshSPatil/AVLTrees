@@ -27,6 +27,8 @@ int** tree_2_array(binary_tree* bt);
 
 void print_tree_array(int** array, int array_size);
 
+void free_tree_array(int** array, int array_size);
+
 void print_tree(int node_size, int num_spaces_between, binary_tree* bt);
 
 

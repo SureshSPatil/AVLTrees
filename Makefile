@@ -1,6 +1,6 @@
 CC := gcc
 exec := avl
-libraries := binary_tree_node.h binary_tree.h 
+libraries := binary_tree_node.h binary_tree.h
 cfiles := binary_tree.c
 
 all: $(exec)

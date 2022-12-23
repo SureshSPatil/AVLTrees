@@ -85,23 +85,19 @@ int** tree_2_array(binary_tree* bt) {
 	int** int_array = (int**) malloc(max_num_nodes * sizeof(int*));
 	binary_tree_node** btn_array = (binary_tree_node**) malloc(max_num_nodes * sizeof(binary_tree_node*));
 
+	
 	*btn_array = bt->root;
 	for (i = 0; i < max_num_nodes; i++) {
-		if (*(btn_array + i) != NULL) {
+		if (*(btn_array + i) != NULL && (2 * i) + 1 < max_num_nodes) {
 			*(btn_array + 2*i + 1) = (*(btn_array + i))->left_child;
 			*(btn_array + 2*i + 2) = (*(btn_array + i))->right_child;
 		}
 	}
-
-	*(int_array) = (int*) malloc(sizeof(int));
-
+	
 	for (i = 0; i < max_num_nodes; i++) {
-		if(*(btn_array + i) == NULL) {
-			*(int_array + i) = NULL;
-		} else {
-			//FIXME: Error with malloc of int pointer
-			//*(int_array + i) = (int*) malloc(sizeof(int));
-			//**(int_array + i) = (*(btn_array + i))->val;	
+		if(*(btn_array + i) != NULL) {
+			*(int_array + i) = (int*) malloc(sizeof(int));
+			**(int_array + i) = (*(btn_array + i))->val;	
 		}
 	}
 
@@ -173,9 +169,9 @@ void print_tree(int node_size, int num_spaces_between, binary_tree* bt) {
 					else:
 						fill_spaces((buff + j), (2 * line_length) + 1);
 					j += (2 * line_length) + 1
-					if(j + 1 < width) break;
+					if(j + num_spaces_between > width) break;
 					fill_spaces((buff + j), num_spaces_between);
-					j += 1;
+					j += num_spaces_between;
 		}
 	*/
 }
