@@ -168,7 +168,7 @@ void print_arrows(int** tree_array, int start_index, int end_index, int arrow_le
 					strcpy((line_buff + k + i), "\\");
 					fill_spaces((line_buff + k + i + 1), arrow_len - 1 - i);
 					k += arrow_len;
-	
+
 					fill_spaces((line_buff + k), arrow_len + 2);
 					k += arrow_len + 2;
 				}
