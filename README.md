@@ -1,4 +1,4 @@
 # AVLTrees
-To run: \n  
+To run: 
 make avl  
 ./avl  
