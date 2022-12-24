@@ -147,15 +147,15 @@ int int_2_string(char* buff, int val) {
 }
 
 void print_arrows(int** tree_array, int start_index, int end_index, int arrow_len, char* line_buff) {
-	int cell_size = (2 * arrow_len) + 1;
-	
 	int i, j, k;
 	for (i = 0; i < arrow_len; i++) {
-		fill_spaces(line_buff, arrow_len + 1);
-		k = arrow_len + 1;
+		k = 0;
 		for (j = start_index; j < end_index; j++) {
 			if (*(tree_array + j) != NULL) {
 				if (j % 2 == 1) {
+					fill_spaces((line_buff + k), arrow_len + 1);
+					k += arrow_len + 1;
+
 					fill_spaces((line_buff + k), arrow_len - 1 - i);
 					strcpy((line_buff + k + arrow_len - 1 - i), "/");
 					fill_spaces((line_buff + k + arrow_len - i), i);
@@ -169,21 +169,25 @@ void print_arrows(int** tree_array, int start_index, int end_index, int arrow_le
 					fill_spaces((line_buff + k + i + 1), arrow_len - 1 - i);
 					k += arrow_len;
 	
-					if (j != end_index - 1) {
-						fill_spaces((line_buff + k), cell_size + 2);
-						k += cell_size + 2;
-					}
+					fill_spaces((line_buff + k), arrow_len + 2);
+					k += arrow_len + 2;
 				}
 			} else {
-				fill_spaces((line_buff + k), arrow_len);
-				k += arrow_len;
-
 				if (j % 2 == 1) {
+					fill_spaces((line_buff + k), arrow_len + 1);
+					k += arrow_len + 1;
+
+					fill_spaces((line_buff + k), arrow_len);
+					k += arrow_len;
+
 					fill_spaces((line_buff + k), 1);
 					k += 1;
-				} else if (j != end_index - 1) {
-					fill_spaces((line_buff + k), cell_size + 2);
-					k += cell_size + 2;
+				} else {
+					fill_spaces((line_buff + k), arrow_len);
+					k += arrow_len;
+
+					fill_spaces((line_buff + k), arrow_len + 2);
+					k += arrow_len + 2;
 				}
 			}
 		}

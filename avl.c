@@ -5,11 +5,11 @@ int main() {
 	binary_tree* bt = initialize_tree();
 	insert_tree_node(3, bt);
 	insert_tree_node(1, bt);
-	insert_tree_node(4, bt);
-	insert_tree_node(2, bt);
-	insert_tree_node(6, bt);
 	insert_tree_node(5, bt);
-	insert_tree_node(7, bt);
+	insert_tree_node(2, bt);
+	insert_tree_node(4, bt);
+	insert_tree_node(6, bt);
+	//insert_tree_node(7, bt);
 
 	printf("%d\n", bt->depth);
 
