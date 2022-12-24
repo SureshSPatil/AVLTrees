@@ -95,7 +95,7 @@ int** tree_2_array(binary_tree* bt) {
 	}
 	
 	for (i = 0; i < max_num_nodes; i++) {
-		if(*(btn_array + i) != NULL) {
+		if (*(btn_array + i) != NULL) {
 			*(int_array + i) = (int*) malloc(sizeof(int));
 			**(int_array + i) = (*(btn_array + i))->val;	
 		}
@@ -107,7 +107,7 @@ int** tree_2_array(binary_tree* bt) {
 
 void print_tree_array(int** array, int array_size) {
 	int i;	
-	for(i = 0; i < array_size; i++) {
+	for (i = 0; i < array_size; i++) {
 		if (*(array + i) == NULL) {
 			printf("%s ", "NULL");
 		} else {
@@ -115,6 +115,16 @@ void print_tree_array(int** array, int array_size) {
 		}
 	}
 	printf("\n");
+}
+
+void free_tree_array(int** array, int array_size) {
+	int i;
+	for (i = 0; i < array_size; i++) {
+		if (*(array + i) != NULL) {
+			free(*(array + i));
+		}
+	}
+	free(array);
 }
 
 void fill_spaces(char* buffer, int num_spaces) {
@@ -132,11 +142,20 @@ void center_string(char* buffer, int center_range, char* center_str, int center_
 	fill_spaces((buffer + left_spaces + center_str_len), right_spaces);
 }
 
-char* int_2_string(int val, int* str_len) {
-	return NULL;
+int int_2_string(char* buff, int val) {
+	return sprintf(buff, "%d", val);
 }
 
-void print_tree(int node_size, int num_spaces_between, binary_tree* bt) {
+void print_arrows(int** tree_array, int start_index, int end_index, int arrow_len) {
+	
+}
+
+void print_tree(int node_size, binary_tree* bt) {
+	//char int_buff[101];
+	//int str_len = int_2_string(buff, -987);
+	//printf("The integer string %s of length %d.\n", buff, str_len);
+	//str_len = int_2_string(buff, 1);;
+	//printf("The integer string %s of length %d.\n", buff, str_len);
 	/*
 	width = 2^depth * node_size + (2^depth - 1) * num_spaces_between
 	char* buff = (char*) malloc(width * sizeof(char));
@@ -174,4 +193,55 @@ void print_tree(int node_size, int num_spaces_between, binary_tree* bt) {
 					j += num_spaces_between;
 		}
 	*/
+	int width = (pow2(bt->depth) * node_size) + (pow2(bt->depth) - 1);
+	int arrow_len = width / 2;
+	int int_len = 0;
+	char* line_buff = (char*) malloc(width * sizeof(char));
+	char int_buff[101];
+	int** tree_array = tree_2_array(bt);
+	int i, j, k, level_start, level_end;
+
+	center_string(line_buff, width, "ROOT", 4);
+	printf("%s\n", line_buff);
+
+	for(j = 0; j < 2; j++) {
+		center_string(line_buff, width, "|", 1);
+		printf("%s\n", line_buff);
+	}
+
+	if (bt->root == NULL) {
+		center_string(line_buff, width, "NULL", 4);
+		printf("%s\n", line_buff);
+		free_tree_array(tree_array, pow2(bt->depth + 1) - 1);
+		free(line_buff);
+		return;
+	} else {
+		int_len = int_2_string(int_buff, bt->root->val);
+		center_string(line_buff, width, int_buff, int_len);
+		printf("%s\n", line_buff);
+	} 
+
+	for (i = 1; i < bt->depth + 1; i++) {
+		arrow_len = arrow_len / 2;
+		level_start = pow2(i) - 1;
+		level_end = pow2(i + 1) - 1;
+		print_arrows(tree_array, level_start, level_end, arrow_len);
+		k = 0;
+		for(j = level_start; j < level_end; j++) {
+			if (*(tree_array + j) != NULL) {
+				int_len = int_2_string(int_buff, **(tree_array + j));
+				center_string((line_buff + k), (2 * arrow_len) + 1, int_buff, int_len);
+			} else {
+				fill_spaces((line_buff + k), (2 * arrow_len) + 1);
+			}
+			k += (2 * arrow_len) + 1;
+			if (k + 1 > width) break;
+			fill_spaces((line_buff + k), 1);
+			k += 1; 
+		}
+		printf("%s\n", line_buff);
+	}
+
+	free_tree_array(tree_array, pow2(bt->depth + 1) - 1);
+	free(line_buff);
 }
