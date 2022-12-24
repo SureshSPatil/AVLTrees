@@ -169,8 +169,13 @@ void print_arrows(int** tree_array, int start_index, int end_index, int arrow_le
 					fill_spaces((line_buff + k + i + 1), arrow_len - 1 - i);
 					k += arrow_len;
 
-					fill_spaces((line_buff + k), arrow_len + 2);
-					k += arrow_len + 2;
+					fill_spaces((line_buff + k), arrow_len + 1);
+					k += arrow_len + 1;
+
+					if(j != end_index - 1) {
+						fill_spaces((line_buff + k), 1);
+						k += 1;
+					}
 				}
 			} else {
 				if (j % 2 == 1) {
@@ -186,8 +191,13 @@ void print_arrows(int** tree_array, int start_index, int end_index, int arrow_le
 					fill_spaces((line_buff + k), arrow_len);
 					k += arrow_len;
 
-					fill_spaces((line_buff + k), arrow_len + 2);
-					k += arrow_len + 2;
+					fill_spaces((line_buff + k), arrow_len + 1);
+					k += arrow_len + 1;
+
+					if(j != end_index - 1) {
+						fill_spaces((line_buff + k), 1);
+						k += 1;
+					}
 				}
 			}
 		}
