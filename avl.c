@@ -3,12 +3,13 @@
 
 int main() {
 	binary_tree* bt = initialize_tree();
-	insert_tree_node(5, bt);
 	insert_tree_node(3, bt);
-	insert_tree_node(6, bt);
-	insert_tree_node(2, bt);
+	insert_tree_node(1, bt);
 	insert_tree_node(4, bt);
-	insert_tree_node(8, bt);
+	insert_tree_node(2, bt);
+	insert_tree_node(6, bt);
+	insert_tree_node(5, bt);
+	insert_tree_node(7, bt);
 
 	printf("%d\n", bt->depth);
 
@@ -20,7 +21,7 @@ int main() {
 	print_tree_array(tree_array, (1 << (bt->depth + 1)) - 1);
 	free_tree_array(tree_array, (1 << (bt->depth + 1)) - 1);
 
-	print_tree(5, bt);
+	print_tree(3, bt);
 
 	deinitialize_tree(bt);
 	return 0;
