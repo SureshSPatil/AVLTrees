@@ -101,28 +101,25 @@ void rebalance(binary_tree* bt, binary_tree_node* potential_problem) {
 
 int main() {
 	binary_tree* bt = initialize_tree();
-	
-	rebalance(bt, insert_tree_node(4, bt));
-	rebalance(bt, insert_tree_node(2, bt));
-	rebalance(bt, insert_tree_node(10, bt));
-	rebalance(bt, insert_tree_node(8, bt));
-	rebalance(bt, insert_tree_node(12, bt));
-	rebalance(bt, insert_tree_node(9, bt));
-	rebalance(bt, insert_tree_node(1, bt));
-	rebalance(bt, insert_tree_node(0, bt));
-	rebalance(bt, insert_tree_node(-1, bt));
-	//insert_tree_node(1, bt);	
 
-	//insert_tree_node(4, bt);
-	//insert_tree_node(2, bt);
-	//insert_tree_node(10, bt);
-	//insert_tree_node(8, bt);
-	//insert_tree_node(12, bt);
-	//insert_tree_node(9, bt);
-	//insert_tree_node(14, bt);
-	//insert_tree_node(13, bt);
+	insert_tree_node(4, bt);
+	insert_tree_node(2, bt);
+	insert_tree_node(10, bt);
+	insert_tree_node(8, bt);
+	insert_tree_node(12, bt);
+	insert_tree_node(9, bt);
+	insert_tree_node(1, bt);
+	insert_tree_node(0, bt);
+	insert_tree_node(-1, bt);
+	insert_tree_node(5, bt);
+	insert_tree_node(13, bt);
+	insert_tree_node(27, bt);
+	//insert_tree_node(-8, bt);
 
-	printf("%d\n", bt->depth);
+
+	printf("Original BT:\n");
+	printf("BT Depth:%d\n", bt->depth);
+
 	//update_depth(bt);
 
 	//printf("%d\n", bt->root->val);
@@ -130,8 +127,10 @@ int main() {
 	//printf("%d\n", bt->root->right_child->val);
 
 	int** tree_array = tree_2_array(bt);
-	print_tree_array(tree_array, (1 << (bt->depth + 1)) - 1);
+	//print_tree_array(tree_array, (1 << (bt->depth + 1)) - 1);
 	free_tree_array(tree_array, (1 << (bt->depth + 1)) - 1);
+
+	binary_tree* balanced_bt = initialize_tree();
 
 	print_tree(3, bt);
 
@@ -139,5 +138,41 @@ int main() {
 	//if (problem != NULL) printf("%d\n", problem->val);
 
 	deinitialize_tree(bt);
+	
+	rebalance(balanced_bt, insert_tree_node(4, balanced_bt));
+	rebalance(balanced_bt, insert_tree_node(2, balanced_bt));
+	rebalance(balanced_bt, insert_tree_node(10, balanced_bt));
+	rebalance(balanced_bt, insert_tree_node(8, balanced_bt));
+	rebalance(balanced_bt, insert_tree_node(12, balanced_bt));
+	rebalance(balanced_bt, insert_tree_node(9, balanced_bt));
+	rebalance(balanced_bt, insert_tree_node(1, balanced_bt));
+	rebalance(balanced_bt, insert_tree_node(0, balanced_bt));
+	rebalance(balanced_bt, insert_tree_node(-1, balanced_bt));
+	rebalance(balanced_bt, insert_tree_node(5, balanced_bt));
+	rebalance(balanced_bt, insert_tree_node(13, balanced_bt));
+	rebalance(balanced_bt, insert_tree_node(27, balanced_bt));
+	//rebalance(balanced_bt, insert_tree_node(-8, balanced_bt));
+
+	printf("\nBalanced BT:\n");
+	printf("BT Depth:%d\n", balanced_bt->depth);
+
+	//update_depth(bt);
+
+	//printf("%d\n", bt->root->val);
+	//printf("%d\n", bt->root->left_child->val);
+	//printf("%d\n", bt->root->right_child->val);
+
+	int** tree_array_balanced = tree_2_array(balanced_bt);
+	//print_tree_array(tree_array_balanced, (1 << (balanced_bt->depth + 1)) - 1);
+	free_tree_array(tree_array_balanced, (1 << (balanced_bt->depth + 1)) - 1);
+
+	print_tree(3, balanced_bt);
+
+	//binary_tree_node* problem = find_problem(bt->root);
+	//if (problem != NULL) printf("%d\n", problem->val);
+
+	deinitialize_tree(balanced_bt);
+
+
 	return 0;
 }
