@@ -19,7 +19,7 @@ void deinitialize_tree(binary_tree* bt);
 
 binary_tree_node* find(int val, binary_tree* bt);
 
-void insert_tree_node(int val, binary_tree* bt);
+binary_tree_node* insert_tree_node(int val, binary_tree* bt);
 
 int delete_tree_node(binary_tree_node* btn, binary_tree* bt);
 
@@ -31,5 +31,10 @@ void free_tree_array(int** array, int array_size);
 
 void print_tree(int node_size, binary_tree* bt);
 
+int max(int a, int b);
+
+void update_depth(binary_tree* bt);
+
+void propogate_depth(binary_tree_node* btn, binary_tree* bt);
 
 #endif

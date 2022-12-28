@@ -37,7 +37,36 @@ binary_tree_node* find(int val, binary_tree* bt) {
 	return NULL;
 }
 
-void insert_tree_node(int val, binary_tree* bt) {
+int max(int a, int b){
+	return (a > b)? a : b;
+}
+
+int update_depth_helper(binary_tree_node* btn) {
+	if (btn == NULL) return 0;
+	else {
+		printf("btn->val: %d\ndepth_left: %d\ndepth_right: %d\n\n", btn->val, btn->depth_left, btn->depth_right);
+		btn->depth_left = update_depth_helper(btn->left_child);
+		btn->depth_right = update_depth_helper(btn->right_child);
+		return max(btn->depth_left, btn->depth_right) + 1;
+	}
+}
+
+void update_depth(binary_tree* bt) {
+	update_depth_helper(bt->root);	
+	bt->depth = max(bt->root->depth_left, bt->root->depth_right);
+}
+
+void propogate_depth(binary_tree_node* btn, binary_tree* bt) {
+	binary_tree_node* cur = btn;
+	while (cur != NULL) {
+		cur->depth_left = (cur->left_child)? 1 + max(cur->left_child->depth_left, cur->left_child->depth_right) : 0;
+		cur->depth_right = (cur->right_child)? 1 + max(cur->right_child->depth_left, cur->right_child->depth_right) : 0;
+		cur = cur->parent;
+	}
+	bt->depth = max(bt->root->depth_left, bt->root->depth_right);	
+}
+
+binary_tree_node* insert_tree_node(int val, binary_tree* bt) {
 	binary_tree_node* btn = (binary_tree_node*) malloc(sizeof(binary_tree_node));
 	btn->val = val;
 	binary_tree_node* cur = bt->root;
@@ -48,18 +77,16 @@ void insert_tree_node(int val, binary_tree* bt) {
 		cur_parent = cur;
 		if (val > cur->val) {
 			cur = cur->right_child;
-			cur_parent->num_right += 1;
 		} else {
 			cur = cur->left_child;
-			cur_parent->num_left += 1;
 		}
 		cur_depth += 1;
 	}	
 	btn->parent = cur_parent;
 	btn->left_child = NULL;
 	btn->right_child = NULL;
-	btn->num_left = 0;
-	btn->num_right = 0;
+	btn->depth_left = 0;
+	btn->depth_right = 0;
 	if (bt->size == 0) {	
 		bt->root = btn;
 	} else {
@@ -67,7 +94,16 @@ void insert_tree_node(int val, binary_tree* bt) {
 		else cur_parent->left_child = btn;
 	} 
 	bt->size += 1;
-	bt->depth = (bt->depth < cur_depth)? cur_depth : bt->depth;
+	if (btn->parent != NULL) {
+		if (btn->val > btn->parent->val) {
+			if (btn->parent->depth_right == 0) btn->parent->depth_right = 1;
+		} else {
+			if (btn->parent->depth_left == 0) btn->parent->depth_left = 1;
+		}
+		propogate_depth(btn->parent->parent, bt);
+	}
+	
+	return btn;
 }
 
 
@@ -93,11 +129,13 @@ int** tree_2_array(binary_tree* bt) {
 			*(btn_array + 2*i + 2) = (*(btn_array + i))->right_child;
 		}
 	}
-	
+
 	for (i = 0; i < max_num_nodes; i++) {
 		if (*(btn_array + i) != NULL) {
 			*(int_array + i) = (int*) malloc(sizeof(int));
 			**(int_array + i) = (*(btn_array + i))->val;	
+		} else {
+			*(int_array + i) = NULL;
 		}
 	}
 
