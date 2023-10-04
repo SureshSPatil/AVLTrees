@@ -1,4 +1,4 @@
-#include "binary_tree.h"
+#include "../include/binary_tree.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -52,7 +52,7 @@ int update_depth_helper(binary_tree_node* btn) {
 }
 
 void update_depth(binary_tree* bt) {
-	update_depth_helper(bt->root);	
+	update_depth_helper(bt->root);
 	bt->depth = max(bt->root->depth_left, bt->root->depth_right);
 }
 
@@ -63,7 +63,7 @@ void propogate_depth(binary_tree_node* btn, binary_tree* bt) {
 		cur->depth_right = (cur->right_child)? 1 + max(cur->right_child->depth_left, cur->right_child->depth_right) : 0;
 		cur = cur->parent;
 	}
-	bt->depth = max(bt->root->depth_left, bt->root->depth_right);	
+	bt->depth = max(bt->root->depth_left, bt->root->depth_right);
 }
 
 binary_tree_node* insert_tree_node(int val, binary_tree* bt) {
@@ -81,18 +81,18 @@ binary_tree_node* insert_tree_node(int val, binary_tree* bt) {
 			cur = cur->left_child;
 		}
 		cur_depth += 1;
-	}	
+	}
 	btn->parent = cur_parent;
 	btn->left_child = NULL;
 	btn->right_child = NULL;
 	btn->depth_left = 0;
 	btn->depth_right = 0;
-	if (bt->size == 0) {	
+	if (bt->size == 0) {
 		bt->root = btn;
 	} else {
 		if(btn->val > cur_parent->val) cur_parent->right_child = btn;
 		else cur_parent->left_child = btn;
-	} 
+	}
 	bt->size += 1;
 	if (btn->parent != NULL) {
 		if (btn->val > btn->parent->val) {
@@ -102,7 +102,7 @@ binary_tree_node* insert_tree_node(int val, binary_tree* bt) {
 		}
 		propogate_depth(btn->parent->parent, bt);
 	}
-	
+
 	return btn;
 }
 
@@ -121,7 +121,7 @@ int** tree_2_array(binary_tree* bt) {
 	int** int_array = (int**) malloc(max_num_nodes * sizeof(int*));
 	binary_tree_node** btn_array = (binary_tree_node**) malloc(max_num_nodes * sizeof(binary_tree_node*));
 
-	
+
 	*btn_array = bt->root;
 	for (i = 0; i < max_num_nodes; i++) {
 		if (*(btn_array + i) != NULL && (2 * i) + 1 < max_num_nodes) {
@@ -133,7 +133,7 @@ int** tree_2_array(binary_tree* bt) {
 	for (i = 0; i < max_num_nodes; i++) {
 		if (*(btn_array + i) != NULL) {
 			*(int_array + i) = (int*) malloc(sizeof(int));
-			**(int_array + i) = (*(btn_array + i))->val;	
+			**(int_array + i) = (*(btn_array + i))->val;
 		} else {
 			*(int_array + i) = NULL;
 		}
@@ -144,7 +144,7 @@ int** tree_2_array(binary_tree* bt) {
 }
 
 void print_tree_array(int** array, int array_size) {
-	int i;	
+	int i;
 	for (i = 0; i < array_size; i++) {
 		if (*(array + i) == NULL) {
 			printf("%s ", "NULL");
@@ -166,7 +166,7 @@ void free_tree_array(int** array, int array_size) {
 }
 
 void fill_spaces(char* buffer, int num_spaces) {
-	int i;	
+	int i;
 	for (i = 0; i < num_spaces; i++) {
 		strcpy((buffer + i), " ");
 	}
@@ -197,7 +197,7 @@ void print_arrows(int** tree_array, int start_index, int end_index, int arrow_le
 					fill_spaces((line_buff + k), arrow_len - 1 - i);
 					strcpy((line_buff + k + arrow_len - 1 - i), "/");
 					fill_spaces((line_buff + k + arrow_len - i), i);
-					k += arrow_len;					
+					k += arrow_len;
 
 					fill_spaces((line_buff + k), 1);
 					k += 1;
@@ -270,7 +270,7 @@ void print_tree(int node_size, binary_tree* bt) {
 		int_len = int_2_string(int_buff, bt->root->val);
 		center_string(line_buff, width, int_buff, int_len);
 		printf("%s\n", line_buff);
-	} 
+	}
 
 	for (i = 1; i < bt->depth + 1; i++) {
 		arrow_len = arrow_len / 2;
@@ -288,7 +288,7 @@ void print_tree(int node_size, binary_tree* bt) {
 			k += (2 * arrow_len) + 1;
 			if (k + 1 > width) break;
 			fill_spaces((line_buff + k), 1);
-			k += 1; 
+			k += 1;
 		}
 		printf("%s\n", line_buff);
 	}

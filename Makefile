@@ -1,13 +1,28 @@
 CC := gcc
-exec := avl
-libraries := binary_tree_node.h binary_tree.h
+CFLAGS:= -Wall -Wextra -g
+
+INC_DIR := include
+SRC_DIR := src
+OBJ_DIR := obj
+
+C_FILES := $(wildcard $(SRC_DIR)/*.c)
+H_FILES := $(wildcard $(INC_DIR)/*.h)
+OBJ_FILES := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(C_FILES))
+
+EXEC := avl
 cfiles := binary_tree.c
 
-all: $(exec)
+all: $(OBJ_DIR) $(EXEC)
 
-$(exec): $(exec).c $(libraries)
-	$(CC) -o $(exec) $(exec).c $(libraries) $(cfiles) -Wall
+$(OBJ_DIR):
+	mkdir -p $@
 
-clean: $(exec)
-	rm $(exec)
+$(EXEC): $(OBJ_FILES)
+	$(CC) -o $@ $^ $(CFLAGS)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) -o $@ -c $^ $(CFLAGS)
+
+clean:
+	rm -rf $(OBJ_DIR)/*.o $(EXEC)
 

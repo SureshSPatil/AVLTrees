@@ -1,4 +1,4 @@
-#include "binary_tree.h"
+#include "../include/binary_tree.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -9,7 +9,7 @@ void left_rotate(binary_tree_node* btn, binary_tree* bt) {
 	btn->depth_right = child->depth_left;
 	child->depth_left = max(btn->depth_left, btn->depth_right) + 1;
 	if (btn == bt->root) {
-		child->parent = NULL;		
+		child->parent = NULL;
 		btn->parent = child;
 		bt->root = child;
 	} else {
@@ -27,7 +27,7 @@ void right_rotate(binary_tree_node* btn, binary_tree* bt) {
 	btn->depth_left = child->depth_right;
 	child->depth_right = max(btn->depth_left, btn->depth_right) + 1;
 	if (btn == bt->root) {
-		child->parent = NULL;		
+		child->parent = NULL;
 		btn->parent = child;
 		bt->root = child;
 	} else {
@@ -49,7 +49,7 @@ int does_violate(binary_tree_node* potential_problem) {
 
 binary_tree_node* find_problem_child(binary_tree_node* btn) {
 	binary_tree_node* cur = btn;
-	
+
 	while (1) {
 		if (cur->depth_left == cur->depth_right && cur->depth_left == 0) return cur;
 		if (cur->depth_left > cur->depth_right) cur = cur->left_child;
@@ -60,7 +60,7 @@ binary_tree_node* find_problem_child(binary_tree_node* btn) {
 binary_tree_node* find_problem(binary_tree_node* btn) {
 	binary_tree_node* left_result;
 
-	if (btn == NULL) return NULL;	
+	if (btn == NULL) return NULL;
 
 	printf("btn->val: %d\ndepth_left: %d\ndepth_right: %d\n\n", btn->val, btn->depth_left, btn->depth_right);
 
@@ -73,7 +73,7 @@ binary_tree_node* find_problem(binary_tree_node* btn) {
 void rebalance(binary_tree* bt, binary_tree_node* potential_problem) {
 	binary_tree_node* problem = potential_problem;
 	binary_tree_node* parent;
-	binary_tree_node* grandparent;	
+	binary_tree_node* grandparent;
 
 	while (does_violate(problem)) {
 		parent = problem->parent;
@@ -94,8 +94,8 @@ void rebalance(binary_tree* bt, binary_tree_node* potential_problem) {
 			}
 		}
 
-		propogate_depth(grandparent->parent, bt);	
-		problem = grandparent;	
+		propogate_depth(grandparent->parent, bt);
+		problem = grandparent;
 	}
 }
 
@@ -138,7 +138,7 @@ int main() {
 	//if (problem != NULL) printf("%d\n", problem->val);
 
 	deinitialize_tree(bt);
-	
+
 	rebalance(balanced_bt, insert_tree_node(4, balanced_bt));
 	rebalance(balanced_bt, insert_tree_node(2, balanced_bt));
 	rebalance(balanced_bt, insert_tree_node(10, balanced_bt));
